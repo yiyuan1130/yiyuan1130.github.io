@@ -24,6 +24,10 @@ twitter_username: jekyllrb
 github_username:  jekyll
 
 # Build settings
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 markdown: kramdown
 theme: minima
 plugins:
