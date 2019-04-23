@@ -96,18 +96,18 @@ GC.Collect()强制垃圾收集器立即释放内存 Unity的GC功能不算好，
 
 例子2：
 从磁盘读取一个1.unity3d文件到内存并建立一个AssetBundle1对象
-AssetBundle AssetBundle1 = AssetBundle.CreateFromFile("1.unity3d");
+```AssetBundle AssetBundle1 = AssetBundle.CreateFromFile("1.unity3d");```
 从AssetBundle1里读取并创建一个Texture Asset,把obj1的主贴图指向它
-obj1.renderer.material.mainTexture = AssetBundle1.Load("wall") as Texture;
+```obj1.renderer.material.mainTexture = AssetBundle1.Load("wall") as Texture;```
 把obj2的主贴图也指向同一个Texture Asset
-obj2.renderer.material.mainTexture =obj1.renderer.material.mainTexture;
+```obj2.renderer.material.mainTexture =obj1.renderer.material.mainTexture;```
 Texture是引用对象，永远不会有自动复制的情况出现(除非你真需要，用代码自己实现copy)，只会是创建和添加引用
 如果继续：
-AssetBundle1.Unload(true) 那obj1和obj2都变成黑的了，因为指向的Texture Asset没了
+```AssetBundle1.Unload(true) 那obj1和obj2都变成黑的了，因为指向的Texture Asset没了```
 如果：
-AssetBundle1.Unload(false) 那obj1和obj2不变，只是AssetBundle1的内存镜像释放了
+```AssetBundle1.Unload(false) 那obj1和obj2不变，只是AssetBundle1的内存镜像释放了```
 继续：
-Destroy(obj1),//obj1被释放，但并不会释放刚才Load的Texture
+```Destroy(obj1),//obj1被释放，但并不会释放刚才Load的Texture```
 如果这时候：
 Resources.UnloadUnusedAssets();
 不会有任何内存释放 因为Texture asset还被obj2用着
@@ -195,97 +195,6 @@ Resources.UnloadUnusedAssets();
 这样才能真正释放Assets对象
 所以：UnusedAssets不但要没有被实际物体引用，也要没有被生命周期内的变量所引用，才可以理解为 Unused(引用计数为0)
 所以所以：如果你用个全局变量保存你Load的Assets，又没有显式的设为null，那 在这个变量失效前你无论如何UnloadUnusedAssets也释放不了那些Assets的。如果你这些Assets又不是从磁盘加载的，那除了 UnloadUnusedAssets或者加载新场景以外没有其他方式可以卸载之。
-
-一个复杂的例子，代码很丑陋实际也不可能这样做，只是为了加深理解
-
-IEnumerator OnClick()
-
-{
-
-Resources.UnloadUnusedAssets();//清干净以免影响测试效果
-
-yield return new WaitForSeconds(3);
-
-float wait = 0.5f;
-
-//用www读取一个assetBundle,里面是一个Unity基本球体和带一张大贴图的材质，是一个Prefab
-
-WWW aa = new WWW(@"file://SpherePrefab.unity3d");
-
-yield return aa;
-
-AssetBundle asset = aa.assetBundle;
-
-yield return new WaitForSeconds(wait);//每步都等待0.5s以便于分析结果
-
-Texture tt = asset.Load("BallTexture") as  Texture;//加载贴图
-
-yield return new WaitForSeconds(wait);
-
-GameObject ba = asset.Load("SpherePrefab") as  GameObject;//加载Prefab
-
-yield return new WaitForSeconds(wait);
-
-GameObject obj1 = Instantiate(ba) as GameObject;//生成实例
-
-yield return new WaitForSeconds(wait);
-
-Destroy(obj1);//销毁实例
-
-yield return new WaitForSeconds(wait);
-
-asset.Unload(false);//卸载Assetbundle
-
-yield return new WaitForSeconds(wait);
-
-Resources.UnloadUnusedAssets();//卸载无用资源
-
-yield return new WaitForSeconds(wait);
-
-ba = null;//将prefab引用置为空以后卸无用载资源
-
-Resources.UnloadUnusedAssets();
-
-yield return new WaitForSeconds(wait);
-
-tt = null;//将texture引用置为空以后卸载无用资源
-
-Resources.UnloadUnusedAssets();
-
-}
-
-这是测试结果的内存Profile曲线图
-
-
-
-Unity3D占用内存太大怎么解决呢?
-
-图片:p12.jpg
-
-很经典的对称造型，用多少释放多少。
-
-这是各阶段的内存和其他数据变化
-
-
-
-说明:
-1        初始状态
-2        载入AssetBundle文件后，内存多了文件镜像，用量上升，Total Object和Assets增加1（AssetBundle也是object)
-3        载入Texture后，内存继续上升，因为多了Texture Asset,Total Objects和Assets增加1
-4        载入Prefab后，内存无明显变化，因为最占内存的Texture已经加载，Materials上升是因为多了Prefab的材质，Total Objects和Assets增加6，因为 Perfab 包含很多 Components
-5        实例化Prefab以后，显存的Texture Memory、GameObjectTotal、Objects in Scene上升，都是因为实例化了一个可视的对象
-6        销毁实例后，上一步的变化还原，很好理解
-7        卸载AssetBundle文件后，AssetBundle文件镜像占用的内存被释放，相应的Assets和Total Objects Count也减1
-8        直接Resources.UnloadUnusedAssets,没有任何变化，因为所有Assets引用并没有清空
-9        把Prefab引用变量设为null以后，整个Prefab除了Texture外都没有任何引用了，所以被UnloadUnusedAssets销毁,Assets和Total Objects Count减6
-10        再把Texture的引用变量设为null,之后也被UnloadUnusedAssets销毁，内存被释放，assets和Total Objects Count减1，基本还原到初始状态
-
-从中也可以看出：
-Texture加载以后是到内存，显示的时候才进入显存的Texture Memory。
-所有的东西基础都是Object
-Load的是Asset,Instantiate的是GameObject和Object in Scene
-Load的Asset要Unload,new的或者Instantiate的object可以Destroy
-
  
 
 Unity 3D中的内存管理
@@ -295,7 +204,7 @@ Unity3D在内存占用上一直被人诟病，特别是对于面向移动设备�
 
  
 
-Unity中的内存种类
+###Unity中的内存种类
 实际上Unity游戏使用的内存一共有三种：程序代码、托管堆（Managed Heap）以及本机堆（Native Heap）。
 
 程序代码包括了所有的Unity引擎，使用的库，以及你所写的所有的游戏代码。在编译后，得到的运行文件将会被加载到设备中执行，并占用一定内存。
@@ -322,7 +231,7 @@ Unity中的内存种类
 
  
 
-优化程序代码的内存占用
+##优化程序代码的内存占用
 这部分的优化相对简单，因为能做的事情并不多：主要就是减少打包时的引用库，改一改build设置即可。
 
 对于一个新项目来说不会有太大问题，但是如果是已经存在的项目，可能改变会导致原来所需要的库的缺失（虽说一般来说这种可能性不大），
@@ -333,9 +242,9 @@ Unity中的内存种类
 
 当使用Unity开发时，默认的Mono包含库可以说大部分用不上，在Player Setting（Edit->Project Setting->Player或者Shift+Ctrl(Command)+B里的Player Setting按钮）
 
-面板里，将最下方的Optimization栏目中“Api Compatibility Level”选为.NET 2.0 Subset，表示你只会使用到部分的.NET 2.0 Subset，不需要Unity将全部.NET的Api包含进去。接下来的“Stripping Level”表示从build的库中剥离的力度，每一个剥离选项都将从打包好的库中去掉一部分内容。你需要保证你的代码没有用到这部分被剥离的功能，
-
-选为“Use micro mscorlib”的话将使用最小的库（一般来说也没啥问题，不行的话可以试试之前的两个）。库剥离可以极大地降低打包后的程序的尺寸以及程序代码的内存占用，唯一的缺点是这个功能只支持Pro版的Unity。
+面板里，将最下方的Optimization栏目中“Api Compatibility Level”选为.NET 2.0 Subset，表示你只会使用到部分的.NET 2.0 Subset，不需要Unity将全部.NET的Api包含进去。
+接下来的“StrippingLevel”表示从build的库中剥离的力度，每一个剥离选项都将从打包好的库中去掉一部分内容。你需要保证你的代码没有用到这部分被剥离的功能，
+选为“Use micromscorlib”的话将使用最小的库（一般来说也没啥问题，不行的话可以试试之前的两个）。库剥离可以极大地降低打包后的程序的尺寸以及程序代码的内存占用，唯一的缺点是这个功能只支持Pro版的Unity。
 
 这部分优化的力度需要根据代码所用到的.NET的功能来进行调整，有可能不能使用Subset或者最大的剥离力度。
 
@@ -351,7 +260,7 @@ Unity中的内存种类
 
  
 
-托管堆优化
+##托管堆优化
 Unity有一篇不错的关于托管堆代码如何写比较好的说明，在此基础上我个人有一些补充。
 
 首先需要明确，托管堆中存储的是你在你的代码中申请的内存（不论是用js，C#还是Boo写的）。
