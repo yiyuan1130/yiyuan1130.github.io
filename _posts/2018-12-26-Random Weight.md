@@ -2,7 +2,7 @@
 layout: post
 title:  "权重随机算法-Lua实现"
 date:   2018-12-26 20:03:01 +0800
-categories: Lua/Unity
+categories: Algorithm
 ---
 
 使用语言：Lua
