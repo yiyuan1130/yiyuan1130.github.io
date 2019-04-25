@@ -5,8 +5,6 @@ date:   2019-04-23 20:03:01 +0800
 categories: Unity
 ---
 
-最近网友通过网站搜索Unity3D在手机及其他平台下占用内存太大. 这里写下关于unity3d对于内存的管理与优化.
-
 Unity3D 里有两种动态加载机制：一个是Resources.Load，另外一个通过AssetBundle,其实两者区别不大。 Resources.Load就是从一个缺省打进程序包里的AssetBundle里加载资源，而一般AssetBundle文件需要你自己创建，运行时 动态加载，可以指定路径和来源的。
 
 其实场景里所有静态的对象也有这么一个加载过程，只是Unity3D后台替你自动完成了。
@@ -22,8 +20,8 @@ Assets加载:
 异步读取用AssetBundle.LoadAsync
 也可以一次读取多个用AssetBundle.LoadAll
 AssetBundle的释放：
-AssetBundle.Unload(flase)是释放AssetBundle文件的内存镜像，不包含Load创建的Asset内存对象。
-AssetBundle.Unload(true)是释放那个AssetBundle文件内存镜像和并销毁所有用Load创建的Asset内存对象。
+```AssetBundle.Unload(flase)```是释放AssetBundle文件的内存镜像，不包含Load创建的Asset内存对象。
+```AssetBundle.Unload(true)```是释放那个AssetBundle文件内存镜像和并销毁所有用Load创建的Asset内存对象。
 
 一个Prefab从assetBundle里Load出来 里面可能包括：Gameobject transform mesh texture material shader script和各种其他Assets。
 你 Instaniate一个Prefab，是一个对Assets进行Clone(复制)+引用结合的过程，GameObject transform 是Clone是新生成的。其他mesh / texture / material / shader 等，这其中些是纯引用的关系的，包括：Texture和TerrainData，还有引用和复制同时存在的，包括：Mesh/material /PhysicMaterial。引用的Asset对象不会被复制，只是一个简单的指针指向已经Load的Asset对象。这种含糊的引用加克隆的混合， 大概是搞糊涂大多数人的主要原因。
@@ -31,12 +29,12 @@ AssetBundle.Unload(true)是释放那个AssetBundle文件内存镜像和并销毁
 你可以再Instaniate一个同样的Prefab,还是这套mesh/texture/material/shader...，这时候会有新的GameObject等，但是不会创建新的引用对象比如Texture.
 所以你Load出来的Assets其实就是个数据源，用于生成新对象或者被引用，生成的过程可能是复制（clone)也可能是引用（指针）
 当你Destroy一个实例时，只是释放那些Clone对象，并不会释放引用对象和Clone的数据源对象，Destroy并不知道是否还有别的object在引用那些对象。
-等到没有任何 游戏场景物体在用这些Assets以后，这些assets就成了没有引用的游离数据块了，是UnusedAssets了，这时候就可以通过 Resources.UnloadUnusedAssets来释放,Destroy不能完成这个任 务，AssetBundle.Unload(false)也不行，AssetBundle.Unload(true)可以但不安全，除非你很清楚没有任何 对象在用这些Assets了。
+等到没有任何 游戏场景物体在用这些Assets以后，这些assets就成了没有引用的游离数据块了，是UnusedAssets了，这时候就可以通过 ```Resources.UnloadUnusedAssets```来释放,Destroy不能完成这个任 务，```AssetBundle.Unload(false)```也不行，```AssetBundle.Unload(true)```可以但不安全，除非你很清楚没有任何 对象在用这些Assets了。
 配个图加深理解：
 
 
 
-Unity3D占用内存太大怎么解决呢?
+##Unity3D占用内存太大怎么解决呢?##
 
 虽然都叫Asset，但复制的和引用的是不一样的，这点被Unity的暗黑技术细节掩盖了，需要自己去理解。
 
@@ -47,81 +45,104 @@ Unity3D占用内存太大怎么解决呢?
 
 创建时：
 先建立一个AssetBundle,无论是从www还是文件还是memory
-用AssetBundle.load加载需要的asset
-加载完后立即AssetBundle.Unload(false),释放AssetBundle文件本身的内存镜像，但不销毁加载的Asset对象。（这样你不用保存AssetBundle的引用并且可以立即释放一部分内存）
+用```AssetBundle.load```加载需要的asset
+加载完后立即```AssetBundle.Unload(false)```,释放AssetBundle文件本身的内存镜像，但不销毁加载的Asset对象。（这样你不用保存AssetBundle的引用并且可以立即释放一部分内存）
 释放时：
 如果有Instantiate的对象，用Destroy进行销毁
-在合适的地方调用Resources.UnloadUnusedAssets,释放已经没有引用的Asset.
-如果需要立即释放内存加上GC.Collect()，否则内存未必会立即被释放，有时候可能导致内存占用过多而引发异常。
+在合适的地方调用```Resources.UnloadUnusedAssets```,释放已经没有引用的Asset.
+如果需要立即释放内存加上```GC.Collect()```，否则内存未必会立即被释放，有时候可能导致内存占用过多而引发异常。
 这样可以保证内存始终被及时释放，占用量最少。也不需要对每个加载的对象进行引用。
 
 当然这并不是唯一的方法，只要遵循加载和释放的原理，任何做法都是可以的。
 
-系统在加载新场景时，所有的内存对象都会被自动销毁，包括你用AssetBundle.Load加载的对象和Instaniate克隆的。但是不包括AssetBundle文件自身的内存镜像，那个必须要用Unload来释放，用.net的术语，这种数据缓存是非托管的。
+系统在加载新场景时，所有的内存对象都会被自动销毁，包括你用```AssetBundle.Load```加载的对象和Instaniate克隆的。但是不包括AssetBundle文件自身的内存镜像，那个必须要用Unload来释放，用.net的术语，这种数据缓存是非托管的。
 
 总结一下各种加载和初始化的用法:
-AssetBundle.CreateFrom.....：创建一个AssetBundle内存镜像，注意同一个assetBundle文件在没有Unload之前不能再次被使用
-WWW.AssetBundle：同上，当然要先new一个再 yield return 然后才能使用
-AssetBundle.Load(name)： 从AssetBundle读取一个指定名称的Asset并生成Asset内存对象，如果多次Load同名对象，除第一次外都只会返回已经生成的Asset 对象，也就是说多次Load一个Asset并不会生成多个副本（singleton）。
-Resources.Load(path&name)：同上,只是从默认的位置加载。
-Instantiate（object)：Clone 一个object的完整结构，包括其所有Component和子物体（详见官方文档）,浅Copy，并不复制所有引用类型。有个特别用法，虽然很少这样 用，其实可以用Instantiate来完整的拷贝一个引用类型的Asset,比如Texture等，要拷贝的Texture必须类型设置为 Read/Write able。
+```AssetBundle.CreateFrom.....```：创建一个AssetBundle内存镜像，注意同一个assetBundle文件在没有Unload之前不能再次被使用
+```WWW.AssetBundle```：同上，当然要先new一个再 yield return 然后才能使用
+```AssetBundle.Load(name)```： 从AssetBundle读取一个指定名称的Asset并生成Asset内存对象，如果多次Load同名对象，除第一次外都只会返回已经生成的Asset 对象，也就是说多次Load一个Asset并不会生成多个副本（singleton）。
+```Resources.Load(path&name)```：同上,只是从默认的位置加载。
+```Instantiate（object)```：Clone 一个object的完整结构，包括其所有Component和子物体（详见官方文档）,浅Copy，并不复制所有引用类型。有个特别用法，虽然很少这样 用，其实可以用Instantiate来完整的拷贝一个引用类型的Asset,比如Texture等，要拷贝的Texture必须类型设置为 Read/Write able。
 
 总结一下各种释放
 Destroy: 主要用于销毁克隆对象，也可以用于场景内的静态物体，不会自动释放该对象的所有引用。虽然也可以用于Asset,但是概念不一样要小心，如果用于销毁从文 件加载的Asset对象会销毁相应的资源文件！但是如果销毁的Asset是Copy的或者用脚本动态生成的，只会销毁内存对象。
-AssetBundle.Unload(false):释放AssetBundle文件内存镜像
-AssetBundle.Unload(true):释放AssetBundle文件内存镜像同时销毁所有已经Load的Assets内存对象
-Reources.UnloadAsset(Object):显式的释放已加载的Asset对象，只能卸载磁盘文件加载的Asset对象
-Resources.UnloadUnusedAssets:用于释放所有没有引用的Asset对象
-GC.Collect()强制垃圾收集器立即释放内存 Unity的GC功能不算好，没把握的时候就强制调用一下
+```AssetBundle.Unload(false)```:释放AssetBundle文件内存镜像
+```AssetBundle.Unload(true)```:释放AssetBundle文件内存镜像同时销毁所有已经Load的Assets内存对象
+```Reources.UnloadAsset(Object)```:显式的释放已加载的Asset对象，只能卸载磁盘文件加载的Asset对象
+```Resources.UnloadUnusedAssets```:用于释放所有没有引用的Asset对象
+```GC.Collect()```强制垃圾收集器立即释放内存 Unity的GC功能不算好，没把握的时候就强制调用一下
 
 在3.5.2之前好像Unity不能显式的释放Asset
 
 举两个例子帮助理解
 例子1：
-一个常见的错误：你从某个AssetBundle里Load了一个prefab并克隆之：obj = Instaniate(AssetBundle1.Load('MyPrefab”);
+一个常见的错误：你从某个AssetBundle里Load了一个prefab并克隆之：```obj = Instaniate(AssetBundle1.Load('MyPrefab”);```
 这个prefab比如是个npc
-然后你不需要他的时候你用了：Destroy(obj);你以为就释放干净了
+然后你不需要他的时候你用了：```Destroy(obj);```你以为就释放干净了
 其实这时候只是释放了Clone对象，通过Load加载的所有引用、非引用Assets对象全都静静静的躺在内存里。
-这种情况应该在Destroy以后用：AssetBundle1.Unload(true)，彻底释放干净。
-如果这个AssetBundle1是要反复读取的 不方便Unload，那可以在Destroy以后用：Resources.UnloadUnusedAssets()把所有和这个npc有关的Asset都销毁。
+这种情况应该在Destroy以后用：```AssetBundle1.Unload(true)```，彻底释放干净。
+如果这个AssetBundle1是要反复读取的 不方便Unload，那可以在Destroy以后用：```Resources.UnloadUnusedAssets()```把所有和这个npc有关的Asset都销毁。
 当然如果这个NPC也是要频繁创建 销毁的 那就应该让那些Assets呆在内存里以加速游戏体验。
 由此可以解释另一个之前有人提过的话题：为什么第一次Instaniate 一个Prefab的时候都会卡一下，因为在你第一次Instaniate之前，相应的Asset对象还没有被创建，要加载系统内置的 AssetBundle并创建Assets,第一次以后你虽然Destroy了，但Prefab的Assets对象都还在内存里，所以就很快了。
 
 顺便提一下几种加载方式的区别:
 其实存在3种加载方式：
 一是静态引用，建一个public的变量，在Inspector里把prefab拉上去，用的时候instantiate
-二是Resource.Load，Load以后instantiate
-三是AssetBundle.Load,Load以后instantiate
+二是```Resource.Load```，Load以后instantiate
+三是```AssetBundle.Load```,Load以后instantiate
 三种方式有细 节差异，前两种方式，引用对象texture是在instantiate时加载，而assetBundle.Load会把perfab的全部assets 都加载，instantiate时只是生成Clone。所以前两种方式，除非你提前加载相关引用对象，否则第一次instantiate时会包含加载引用 assets的操作，导致第一次加载的lag。
 
 例子2：
 从磁盘读取一个1.unity3d文件到内存并建立一个AssetBundle1对象
-```AssetBundle AssetBundle1 = AssetBundle.CreateFromFile("1.unity3d");```
+```C#
+AssetBundle AssetBundle1 = AssetBundle.CreateFromFile("1.unity3d");
+```
 从AssetBundle1里读取并创建一个Texture Asset,把obj1的主贴图指向它
-```obj1.renderer.material.mainTexture = AssetBundle1.Load("wall") as Texture;```
+```C#
+obj1.renderer.material.mainTexture = AssetBundle1.Load("wall") as Texture;
+```
 把obj2的主贴图也指向同一个Texture Asset
-```obj2.renderer.material.mainTexture =obj1.renderer.material.mainTexture;```
+```C#
+obj2.renderer.material.mainTexture =obj1.renderer.material.mainTexture;
+```
 Texture是引用对象，永远不会有自动复制的情况出现(除非你真需要，用代码自己实现copy)，只会是创建和添加引用
 如果继续：
-```AssetBundle1.Unload(true) 那obj1和obj2都变成黑的了，因为指向的Texture Asset没了```
+```C#
+AssetBundle1.Unload(true)
+```
+那obj1和obj2都变成黑的了，因为指向的Texture Asset没了
 如果：
-```AssetBundle1.Unload(false) 那obj1和obj2不变，只是AssetBundle1的内存镜像释放了```
-继续：
-```Destroy(obj1),//obj1被释放，但并不会释放刚才Load的Texture```
+```C#
+AssetBundle1.Unload(false) 
+```
+那obj1和obj2不变，只是AssetBundle1的内存镜像释放了,继续：
+```C#
+Destroy(obj1),//obj1被释放，但并不会释放刚才Load的Texture
+```
 如果这时候：
+```C#
 Resources.UnloadUnusedAssets();
+```
 不会有任何内存释放 因为Texture asset还被obj2用着
 如果
+```C#
 Destroy(obj2)
+```
 obj2被释放，但也不会释放刚才Load的Texture
 继续
+```C#
 Resources.UnloadUnusedAssets();
+```
 这时候刚才load的Texture Asset释放了，因为没有任何引用了
-最后CG.Collect();
+最后
+```C#
+CG.Collect();
+```
 强制立即释放内存
 由此可以引申出论坛里另一个被提了几次的问题，如何加载一堆大图片轮流显示又不爆掉
 不考虑AssetBundle，直接用www读图片文件的话等于是直接创建了一个Texture Asset
 假设文件保存在一个List里
+```C#
 TLlist<string> fileList;
 int n=0;
 IEnumerator OnClick()
@@ -133,8 +154,10 @@ obj.mainTexture = image.texture;
 n = (n>=fileList.Length-1)?0:n;
 Resources.UnloadUnusedAssets();
 }
+```
 这样可以保证内存里始终只有一个巨型Texture Asset资源，也不用代码追踪上一个加载的Texture Asset,但是速度比较慢
 或者：
+```C#
 IEnumerator OnClick()
 {
 WWW image = new www(fileList[n++])；
@@ -145,6 +168,7 @@ obj.mainTexture = image.texture;
 n = (n>=fileList.Length-1)?0:n;
 Resources.UnloadAsset(tex);
 }
+```
 这样卸载比较快
 
  
@@ -182,29 +206,33 @@ CreateFromMemory和www.assetBundle:这两种方式AssetBundle文件会整个镜�
 
 什么时候才是UnusedAssets?
 看一个例子：
+```C#
 Object obj = Resources.Load("MyPrefab");
 GameObject instance = Instantiate(obj) as GameObject;
 .........
 Destroy(instance);
+```
 创建随后销毁了一个Prefab实例，这时候 MyPrefab已经没有被实际的物体引用了，但如果这时：
 Resources.UnloadUnusedAssets();
 内存并没有被释放，原因：MyPrefab还被这个变量obj所引用
 这时候：
+```C#
 obj  = null;
 Resources.UnloadUnusedAssets();
+```
 这样才能真正释放Assets对象
 所以：UnusedAssets不但要没有被实际物体引用，也要没有被生命周期内的变量所引用，才可以理解为 Unused(引用计数为0)
 所以所以：如果你用个全局变量保存你Load的Assets，又没有显式的设为null，那 在这个变量失效前你无论如何UnloadUnusedAssets也释放不了那些Assets的。如果你这些Assets又不是从磁盘加载的，那除了 UnloadUnusedAssets或者加载新场景以外没有其他方式可以卸载之。
  
 
-Unity 3D中的内存管理
+##Unity 3D中的内存管理##
 Unity3D在内存占用上一直被人诟病，特别是对于面向移动设备的游戏开发，动辄内存占用飙上一两百兆，导致内存资源耗尽，从而被系统强退造成极 差的体验。类似这种情况并不少见，但是绝大部分都是可以避免的。虽然理论上Unity的内存管理系统应当为开发者分忧解难，让大家投身到更有意义的事情中 去，但是对于Unity对内存的管理方式，官方文档中并没有太多的说明，基本需要依靠自己摸索。最近在接手的项目中存在严重的内存问题，在参照文档和 Unity Answer众多猜测和证实之后，稍微总结了下Unity中的内存的分配和管理的基本方式，在此共享。
 
 虽然Unity标榜自己的内存使用全都是“Managed Memory”，但是事实上你必须正确地使用内存，以保证回收机制正确运行。如果没有做应当做的事情，那么场景和代码很有可能造成很多非必要内存的占用， 这也是很多Unity开发者抱怨内存占用太大的原因。接下来我会介绍Unity使用内存的种类，以及相应每个种类的优化和使用的技巧。遵循使用原则，可以 让非必要资源尽快得到释放，从而降低内存占用。
 
  
 
-###Unity中的内存种类
+##Unity中的内存种类##
 实际上Unity游戏使用的内存一共有三种：程序代码、托管堆（Managed Heap）以及本机堆（Native Heap）。
 
 程序代码包括了所有的Unity引擎，使用的库，以及你所写的所有的游戏代码。在编译后，得到的运行文件将会被加载到设备中执行，并占用一定内存。
@@ -231,7 +259,7 @@ Unity3D在内存占用上一直被人诟病，特别是对于面向移动设备�
 
  
 
-##优化程序代码的内存占用
+##优化程序代码的内存占用##
 这部分的优化相对简单，因为能做的事情并不多：主要就是减少打包时的引用库，改一改build设置即可。
 
 对于一个新项目来说不会有太大问题，但是如果是已经存在的项目，可能改变会导致原来所需要的库的缺失（虽说一般来说这种可能性不大），
@@ -260,7 +288,7 @@ Unity3D在内存占用上一直被人诟病，特别是对于面向移动设备�
 
  
 
-##托管堆优化
+##托管堆优化##
 Unity有一篇不错的关于托管堆代码如何写比较好的说明，在此基础上我个人有一些补充。
 
 首先需要明确，托管堆中存储的是你在你的代码中申请的内存（不论是用js，C#还是Boo写的）。
