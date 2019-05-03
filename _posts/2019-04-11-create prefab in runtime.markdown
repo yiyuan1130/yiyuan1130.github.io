@@ -8,8 +8,7 @@ categories: Unity
 有事需要将SceneA中的一个对象在SceneB中使用，切换场景时候会将A场景对象全部卸载，此时就需要在切场景时候创建一个预设体，然后在SceneB中使用，动态的使用代码创建预设体，需要用到Unity的一个类PrefabUtility
 
 代码如下
-
-```C#
+{% highlight ruby %}
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
@@ -34,7 +33,7 @@ public class CreatePrefabInRunTime : MonoBehaviour {
 		}
 	}
 }
-```
+{% endhighlight %}
 
 
 

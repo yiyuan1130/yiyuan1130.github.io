@@ -13,7 +13,7 @@ categories: Algorithm
   - sum依次循环减权重表里面的权重值
   - 直到差值小于 toCompareWeight,此时的索引下标就是随机出来的，在原数据表中得到对应索引下标就是随机值
 
-```Lua
+{% highlight ruby %}
 --[[
     function:权重随机函数
     param1:要随机的表
@@ -97,6 +97,6 @@ B: count is 1000326 ,probability is 0.1000326
 C: count is 1999609 ,probability is 0.1999609
 D: count is 1998877 ,probability is 0.1998877
 E: count is 3999863 ,probability is 0.3999863
-```
+{% endhighlight %}
 
 从测试数据来看，随机次数越多，越接近单个权重值占总权重值的比例

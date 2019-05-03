@@ -14,7 +14,7 @@ categories: Unity
 
 代码如下：
 
-```C#
+{% highlight ruby %}
 using UnityEditor;
 using UnityEngine;
 using System.IO;
@@ -33,22 +33,21 @@ public class Tools {
 			DirectoryInfo current_dir = dir_arr [i];
 
 			string dir_name = current_dir.Name;
-			// 通过子文件夹名拼接成 assetsbundle 名
+			// 通过子文件夹名拼接成assetsbundle名
 			string assetbundle_name = string.Format ("auto_set_{0}", dir_name.ToLower());
 
 			string dir_path = current_dir.FullName;
 			string asset_path = dir_path.Replace (Application.dataPath, "Assets");
-			// 通过在工程内的路径获取 AssetImporter
+			// 通过在工程内的路径获取AssetImporter
 			AssetImporter ai = AssetImporter.GetAtPath(asset_path);
 
 			ai.assetBundleName = assetbundle_name;
-			// 也可以修改 AssetImporter 中 assetBundleVariant 属性
+			// 也可以修改AssetImporter中assetBundleVariant属性
 			ai.assetBundleVariant = "variant";
 		}
 	}
 }
-
-```
+{% endhighlight %}
 工具完成后会在MenuItem自定义目录中显示
 ![在这里插入图片描述](/styles/images/auto set assetsbundle name/tools.png)
 点击AutoSet AssetBundleName 后，会在动将BundleFloders目录下所有文件夹设置assetBundleName
