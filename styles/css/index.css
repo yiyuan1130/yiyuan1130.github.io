@@ -6316,7 +6316,7 @@ hr {
 .docs-header,
 .docs-home {
   color: #000000;
-  background-color: #009999;
+  /*background-color: #009999;*/
 }
 /* Page headers */
 .docs-header {
