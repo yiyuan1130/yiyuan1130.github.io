@@ -6,7 +6,7 @@ categories: Unity
 ---
 为了能够更新游戏逻辑，很多Unity项目采用Lua脚本语言，但是本地Unity并没有支持Lua文件的创建，此文章分享一下扩展Unity编辑器创建Lua文件。直接上代码：
 1. 创建Lua文件的C#逻辑
-```C#
+```
 using UnityEngine;
 using UnityEditor;
 using System;
