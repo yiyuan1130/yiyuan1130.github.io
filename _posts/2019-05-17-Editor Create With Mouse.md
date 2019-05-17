@@ -20,7 +20,7 @@ public static void CreateObjInHierarchy()
 }
 ```
 实现效果
-![在这里插入图片描述](/styles/images/auto set assetsbundle name/editor_create_gameobject.png)
+![在这里插入图片描述](/styles/images/editor create with mouse/editor_create_gameobject.png)
 
 2. 在Asset面板下创建资源
 ```C#
@@ -30,4 +30,4 @@ public static void CreateObjInAsset()
     // 具体逻辑
 }
 ```
-![在这里插入图片描述](/styles/images/auto set assetsbundle name/editor_create_asset.png)
+![在这里插入图片描述](/styles/images/editor create with mouse/editor_create_asset.png)
