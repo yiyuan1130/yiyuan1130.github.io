@@ -3692,7 +3692,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   .navbar-nav > li > a,
   .docs-nav .navbar-nav > li > span {
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 80px;
   }
 }
 @media (min-width: 768px) {
@@ -6315,12 +6315,12 @@ hr {
 }
 .docs-header,
 .docs-home {
-  color: #b9c8e0;
-  background-color: #1d365d;
+  color: #000000;
+  background-color: #009999;
 }
 /* Page headers */
 .docs-header {
-  padding: 30px 15px 50px;
+  padding: 50px 15px 10px;
   /* side padding builds on .container 15px, so 30px */
   font-size: 16px;
   text-align: center;
@@ -6338,8 +6338,8 @@ hr {
 }
 @media (min-width: 768px) {
   .docs-header {
-    font-size: 21px;
-    text-align: left;
+    font-size: 40px;
+    text-align: center;
   }
   .docs-header h1 {
     font-size: 60px;
@@ -6349,7 +6349,8 @@ hr {
 @media (min-width: 992px) {
   .docs-header h1,
   .docs-header p {
-    margin-right: 380px;
+    margin-right: 0px;
+    /*margin-top: 100px;*/
   }
 }
 .footer {
@@ -6512,6 +6513,7 @@ hr {
 .docs-nav {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
   background-image: url('/styles/images/icon.jpg');
+  /*background-color: #68838B;*/
   border-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07);
 }
@@ -6530,7 +6532,7 @@ hr {
 }
 .docs-nav .navbar-nav > li > a,
 .docs-nav .navbar-nav > li > span {
-  color: #b9c8e0;
+  color: #000033;
 }
 .docs-nav .navbar-nav > li > a:hover,
 .docs-nav .navbar-nav > li > span:hover {
@@ -6560,7 +6562,7 @@ hr {
 .btn-outline:active {
   color: #fff;
   background-color: #1d365d;
-  border-color: #1d365d;
+  border-color: #33ffff;
 }
 /* Inverted outline button (white on dark) */
 .btn-outline-inverse {
