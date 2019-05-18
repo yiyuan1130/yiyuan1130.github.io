@@ -78,11 +78,11 @@ function @ScriptName@:Awake()
 
 end
 
-function @ScriptName@:Start()
+function @ScriptName@:OnEnable()
 
 end
 
-function @ScriptName@:OnEnable()
+function @ScriptName@:Start()
 
 end
 
