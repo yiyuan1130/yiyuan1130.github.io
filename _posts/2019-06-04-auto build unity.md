@@ -10,6 +10,9 @@ categories: Unity
 2. unity提供打包，打assetbunle接口
 3. 编写外部打包工具脚本
 
+### 在流程开始之前需要了解C#和Python的参数传递
+请看 https://yiyuan1130.github.io/unity/2019/06/03/param in C# and python.html
+
 #### 1、处理git拉取，切换分支
 使用git拉取分支无非就是调用git的命令，在此，python中提供了subprocess库可用来执行shell命令。除了使用subprocess.call()调用git命令，python还提供了[gitpython](https://pypi.org/project/GitPython/)库方便git的使用。因为git操作用到了拉取、切换分支、重置等操作，对于整体打包流程只需知道结果，所以引入operation（操作）的概念，将所有的git操作封装到operation中，python脚本如下：
 
