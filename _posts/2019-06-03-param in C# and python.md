@@ -2,7 +2,7 @@
 layout: post
 title:  "UnityC#、Python 参数传递"
 date:   2019-06-03 19:03:01 +0800
-categories: Unity
+categories: Algorithm
 ---
 ### Unity的C#参数传递
 在使用Unity命令行时候用到参数时候，需要将参数从外部传递，在C#中读取。
