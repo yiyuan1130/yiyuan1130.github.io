@@ -36,7 +36,7 @@ void LoadTexture(){
     byte[] buffer = new byte[fs.Length];
     fs.Read(buffer, 0, buffer.Length);
     fs.Close();
-    texture = new Texture2D(2, 2);
+    texture = new Texture2D(1, 1, TextureFormat.ARGB4444, false);
     var iSLoad = texture.LoadImage(buffer);
     texture.Apply();
     Sprite sprite = Sprite.Create (texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
