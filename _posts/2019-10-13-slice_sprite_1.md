@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Unity Mesh实现图片切割（一）-> 线与顶点"
+title:  "Unity Mesh实现图片切割（一）- 线与顶点"
 date:   2019-11-13 14:00:00 +0800
 categories: Unity
 ---
@@ -67,6 +67,6 @@ Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePos
 ```
 ---
 下一遍博客将讲解交点坐标的求解以及为创建新的mesh顶点坐标的预处理：
-[Unity Mesh实现图片切割（二）-> 顶点计算](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_2.html)
+[Unity Mesh实现图片切割（二）- 顶点计算](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_2.html)
 
-全文链接： [Unity Mesh实现图片切割 -> 概述](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)
+全文链接： [Unity Mesh实现图片切割 - 概述](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)

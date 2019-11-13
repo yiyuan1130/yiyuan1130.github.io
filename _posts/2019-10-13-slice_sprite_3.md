@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Unity Mesh实现图片切割（三）-> mesh绘制"
+title:  "Unity Mesh实现图片切割（三）- mesh绘制"
 date:   2019-11-13 12:00:00 +0800
 categories: Unity
 ---
@@ -41,4 +41,4 @@ mesh.vertices = meshVertices;
 
 PS:另外如有需要，可以设置法线```mesh.normals = meshNormals;```
 
-全文链接： [Unity Mesh实现图片切割 -> 概述](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)
+全文链接： [Unity Mesh实现图片切割 - 概述](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)
