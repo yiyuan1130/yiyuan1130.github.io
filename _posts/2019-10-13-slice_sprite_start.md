@@ -30,8 +30,8 @@ categories: Unity
 6. 依照排序好的点集作为新图新顶点创建mesh顶点序列和三角面
 8. 重设uv坐标，将原texture贴到新的两部分mesh
 #### 为实现此功能的主题，将从上面8个实现思路分博客进行介绍，博客分配如下：
-	- [Unity Mesh实现图片切割（一）](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_1.html)		-->		1，2	
-	- [Unity Mesh实现图片切割（二）](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_2.html)		-->		3，4，5
-	- [Unity Mesh实现图片切割（三）](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_3.html)		-->		6，7 	
+	- [Unity Mesh实现图片切割（一）-> 线与顶点](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_1.html)		-->		1，2	
+	- [Unity Mesh实现图片切割（二）-> 顶点计算](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_2.html)		-->		3，4，5
+	- [Unity Mesh实现图片切割（三）-> mesh绘制](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_3.html)		-->		6，7 	
 
 注：本博客只将大体思路，不设计具体详细代码。其中一些算法不定时在其他博客中详细讲解。

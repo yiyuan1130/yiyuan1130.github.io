@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Unity Mesh实现图片切割（二）"
+title:  "Unity Mesh实现图片切割（二）-> 顶点计算"
 date:   2019-11-13 13:00:00 +0800
 categories: Unity
 ---
@@ -54,6 +54,6 @@ point.y > targetY  -> 点在线上方 (upList)
 
 ---
 下一遍博客将讲解创建mesh并修改uv进行贴图：
-[Unity Mesh实现图片切割（三）](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_3.html)
+[Unity Mesh实现图片切割（三）-> mesh绘制](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_3.html)
 
-全文链接： [Unity Mesh实现图片切割](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)
+全文链接： [Unity Mesh实现图片切割（一）-> 概述](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)
