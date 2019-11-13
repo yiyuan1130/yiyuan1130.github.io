@@ -36,7 +36,7 @@ x = (y - b1) / k1;
 合并后要将allPoints中点去重，此操作是为了处理交点为顶点，坐标值相同被视为连个点。或者为了切割需求，将临近点视为同一点坐标值。
 #### 2. 分区域
 拿到画的线的方程，将```allPoints```中点分别跟直线对比，分为在线上、线上方、线下方。如下图：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20191113154138265.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1l1QW5IYW5kU29tZQ==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](/styles/images/slice_sprite/slice_point.png)
 0,1,2,3是图形的顶点vertices，4,5是画的直线和图像边的交点，合并的```allPoints```的集合就是这6个点。画的直线把一个图像分成了两部分，上半部分```part1```是4,3,2,5顶点组成的四边形，下半部分```part2```是1,0,4,5组成的四边形。其中交点是连个图形公用的点，由此可分出连个新四边形的顶点，为画mesh作准备。
 计算点与直线的关系方法：将6个点的x值带入直线方程，得出```targetY```，```targetY```和```point.y```比较：
 ```

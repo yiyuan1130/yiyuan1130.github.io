@@ -6,7 +6,7 @@ categories: Unity
 ---
 
 ### 一、 PolygonCollider2D获取顶点和线段
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20191111192604301.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1l1QW5IYW5kU29tZQ==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](/styles/images/slice_sprite/slice_polygon.png)
 PolygonCollider2D中有points属性，对应和图形的顶点，PolygonCollider2D的顶点可以手动添加或者删除，右键Element X可选择删除这个点。由于Unity
 中所有图片都是连个三角面组成的矩形，在此需要手动拖动点勾勒出图片的有效切割范围。points属性的点顺序如图逆时针从Element0到Element3。
 
