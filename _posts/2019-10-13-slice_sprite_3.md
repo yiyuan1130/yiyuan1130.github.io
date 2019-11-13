@@ -5,7 +5,6 @@ date:   2019-11-13 15:00:00 +0800
 categories: Unity
 ---
 
-# Unity Mesh实现图片切割（三）
 建议了解mesh原理，此篇博客不对mesh详解，值针对此功能做简单介绍以及思路引导。
 ### 一、 创建mesh
 要想自己创建mesh并应用，需要用到```MeshRenderer```和```MeshFilter```组件，```Mesh```就是```MeshFilter```上的一个属性值。
@@ -42,4 +41,4 @@ mesh.vertices = meshVertices;
 
 PS:另外如有需要，可以设置法线```mesh.normals = meshNormals;```
 
-全文链接： [Unity Mesh实现图片切割](https://blog.csdn.net/YuAnHandSome/article/details/103015287)
+全文链接： [Unity Mesh实现图片切割](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)

@@ -5,7 +5,6 @@ date:   2019-11-13 14:00:00 +0800
 categories: Unity
 ---
 
-# Unity Mesh实现图片切割（二）
 在开始计算坐标点之前线建议声明```Line```类，提供一些复用函数，为计算提方便。
 ### 一、 计算画的线和图形线的交点
 求交点坐标直观的数学方法，就是求出两直线的方程，两方程求解。
@@ -55,6 +54,6 @@ point.y > targetY  -> 点在线上方 (upList)
 
 ---
 下一遍博客将讲解创建mesh并修改uv进行贴图：
-[Unity Mesh实现图片切割（三）](https://blog.csdn.net/YuAnHandSome/article/details/103051006)
+[Unity Mesh实现图片切割（三）](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_3.html)
 
-全文链接： [Unity Mesh实现图片切割](https://blog.csdn.net/YuAnHandSome/article/details/103015287)
+全文链接： [Unity Mesh实现图片切割](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)

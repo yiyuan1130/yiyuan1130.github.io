@@ -5,7 +5,6 @@ date:   2019-11-13 13:00:00 +0800
 categories: Unity
 ---
 
-# Unity Mesh实现图片切割（一）
 ### 一、 PolygonCollider2D获取顶点和线段
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191111192604301.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1l1QW5IYW5kU29tZQ==,size_16,color_FFFFFF,t_70)
 PolygonCollider2D中有points属性，对应和图形的顶点，PolygonCollider2D的顶点可以手动添加或者删除，右键Element X可选择删除这个点。由于Unity
@@ -68,6 +67,6 @@ Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePos
 ```
 ---
 下一遍博客将讲解交点坐标的求解以及为创建新的mesh顶点坐标的预处理：
-[Unity Mesh实现图片切割（二）](https://blog.csdn.net/YuAnHandSome/article/details/103018283)
+[Unity Mesh实现图片切割（二）](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_2.html)
 
-全文链接： [Unity Mesh实现图片切割](https://blog.csdn.net/YuAnHandSome/article/details/103015287)
+全文链接： [Unity Mesh实现图片切割](https://yiyuan1130.github.io/unity/2019/11/13/slice_sprite_start.html)
