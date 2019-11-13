@@ -8,13 +8,13 @@ categories: Unity
 先贴上效果图![在这里插入图片描述](https://img-blog.csdnimg.cn/20191111184333419.gif)
 ### 一、用到的Unity相关技术
 ##### 1. PolygonCollider2D
-	1. 顶点编辑
+	- 顶点编辑
 ##### 2. LineRenderer
-	1. 画线
-##### 1.Mesh
-	1. 创建mesh的顶点
-	2. 设置mesh的三角面
-	3. 设置uv贴图
+	- 画线
+##### 3.Mesh
+	- 创建mesh的顶点
+	- 设置mesh的三角面
+	- 设置uv贴图
 
 ### 二、用到的算法
 ##### 1. 计算两线段交点
