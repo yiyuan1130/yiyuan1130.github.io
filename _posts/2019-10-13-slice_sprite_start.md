@@ -7,10 +7,13 @@ categories: Unity
 
 先贴上效果图![在这里插入图片描述](/styles/images/slice_sprite/slice_sprite.gif)
 ### 一、用到的Unity相关技术
+
 ##### 1. PolygonCollider2D
 	- 顶点编辑
+
 ##### 2. LineRenderer
 	- 画线
+
 ##### 3.Mesh
 	- 创建mesh的顶点
 	- 设置mesh的三角面
