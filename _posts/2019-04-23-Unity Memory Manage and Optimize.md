@@ -354,4 +354,4 @@ Unity有一篇不错的关于托管堆代码如何写比较好的说明，在此
 总之这些就是关于Unity3d优化细节,具体还是查看Unity3D的技术手册,以便实现最大的优化。
 
 
-
+转载:http://www.onevcat.com/2012/11/memory-in-unity3d/
