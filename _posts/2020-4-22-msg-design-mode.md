@@ -14,7 +14,7 @@ categories: Design Mode
 
 
 下面是主要代码：
-Msg.lua
+### Msg.lua
 相当于消息中心，对所有消息进行处理
 其中Remove的三个参数支持多种方式的移除消息方式，具体的可以参考代码逻辑进行理解和修改
 ```lua
@@ -107,7 +107,7 @@ Msg.init()
 return Msg
 ```
 
-MsgId.lua
+### MsgId.lua
 用于存储消息Id的脚本
 ```lua
 MsgId = {}
@@ -120,7 +120,7 @@ setmetatable(MsgId, {__newindex = function()
 end})
 ```
 
-test.lua
+### test.lua
 其中的dog1，dog2，dog3，相当于消息监听者，通过```Msg.Add```函数监听消息；```Msg.Send```相当消息发送者，广播对应的消息id
 ```lua
 --[[
@@ -162,8 +162,8 @@ dog3 跑, 通过外部添加监听	-> test 事件参数
 [Finished in 0.1s]
 ]]
 ```
-在test脚本中，
-1. 3个监听者分别监听了```MsgId.DOG_RUN```消息
-2. ```Msg.Send(MsgId.DOG_RUN, "-> test 事件参数")```进行了一次广播
-3. ```Msg.Remove(MsgId.DOG_RUN)```将消息中心```dog2```的```MsgId.DOG_RUN```消息移除
-4.  ```Msg.Send(MsgId.DOG_RUN, "-> test 事件参数")```又进行了一次广播，因为之前有移除过```dog2```的对应消息，所以再次输出中没有```dog2```的输出。
+在test脚本中：
+1. 3个监听者分别监听了`MsgId.DOG_RUN`消息
+2. `Msg.Send(MsgId.DOG_RUN, "-> test 事件参数)` 进行了一次广播
+3. `Msg.Remove(MsgId.DOG_RUN, dog2)`将消息中心`dog2`的`MsgId.DOG_RUN`消息移除
+4. `Msg.Send(MsgId.DOG_RUN, "-> test 事件参数)` 又进行了一次广播，因为之前有移除过dog2的对应消息，所以再次输出中没有dog2的输出。
